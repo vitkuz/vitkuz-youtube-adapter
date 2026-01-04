@@ -4,3 +4,4 @@ export * from './adapter';
 export * from './operations/search';
 export * from './operations/video-details';
 export * from './operations/get-transcript';
+export * from './operations/get-transcript-html';

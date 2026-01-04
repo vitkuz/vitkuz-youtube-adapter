@@ -12,6 +12,11 @@ import {
     GetTranscriptInput,
     GetTranscriptOutput,
 } from './operations/get-transcript';
+import {
+    getTranscriptHtml,
+    GetTranscriptHtmlInput,
+    GetTranscriptHtmlOutput,
+} from './operations/get-transcript-html';
 
 export interface AdapterConfig {
     apiKey: string;
@@ -25,6 +30,7 @@ export interface Adapter {
     videoDetails: (input: VideoDetailsInput) => Promise<VideoDetailsOutput>;
     getAllChannelVideos: (input: GetAllChannelVideosInput) => Promise<GetAllChannelVideosOutput>;
     getTranscript: (input: GetTranscriptInput) => Promise<GetTranscriptOutput>;
+    getTranscriptHtml: (input: GetTranscriptHtmlInput) => Promise<GetTranscriptHtmlOutput>;
 }
 
 import { createAdapter as createFirecrawlAdapter, FirecrawlPlan } from '@vitkuz/firecrawl-adapter';
@@ -53,5 +59,6 @@ export const createAdapter = (config: AdapterConfig): Adapter => {
         videoDetails: videoDetails(context),
         getAllChannelVideos: getAllChannelVideos(context),
         getTranscript: getTranscript(context),
+        getTranscriptHtml: getTranscriptHtml(context),
     };
 };
