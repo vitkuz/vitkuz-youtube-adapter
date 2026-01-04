@@ -1,0 +1,84 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "AnQiYjvYediAgsKJ40Y4q8sVE3w",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "Ui_NrGukiFd9IeD0Z9Le3KBn5nQ",
+      "id": "zQnBQ4tB3ZA",
+      "snippet": {
+        "publishedAt": "2020-11-25T15:28:06Z",
+        "channelId": "UCsBjURrPoezykLs9EqgamOA",
+        "title": "TypeScript in 100 Seconds",
+        "description": "Learn the basics if TypeScript in 100 Seconds! If you love TS, upgrade to Fireship PRO for 40% off using code mbus5Kcj at https://fireship.io/pro\n\nTypeScript docs https://www.typescriptlang.org/\n\n#typescript #js #100SecondsOfCode\n\nInstall the quiz app 🤓\n\niOS https://itunes.apple.com/us/app/fireship/id1462592372?mt=8\nAndroid https://play.google.com/store/apps/details?id=io.fireship.quizapp\n\nMy VS Code Theme\n\n- Atom One Dark \n- vscode-icons\n- Fira Code Font",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/zQnBQ4tB3ZA/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/zQnBQ4tB3ZA/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/zQnBQ4tB3ZA/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/zQnBQ4tB3ZA/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/zQnBQ4tB3ZA/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Fireship",
+        "tags": [
+          "webdev",
+          "app development",
+          "lesson",
+          "tutorial",
+          "typescript",
+          "ts",
+          "javascript",
+          "js",
+          "ts vs js",
+          "typescript tutorial"
+        ],
+        "categoryId": "28",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en",
+        "localized": {
+          "title": "TypeScript in 100 Seconds",
+          "description": "Learn the basics if TypeScript in 100 Seconds! If you love TS, upgrade to Fireship PRO for 40% off using code mbus5Kcj at https://fireship.io/pro\n\nTypeScript docs https://www.typescriptlang.org/\n\n#typescript #js #100SecondsOfCode\n\nInstall the quiz app 🤓\n\niOS https://itunes.apple.com/us/app/fireship/id1462592372?mt=8\nAndroid https://play.google.com/store/apps/details?id=io.fireship.quizapp\n\nMy VS Code Theme\n\n- Atom One Dark \n- vscode-icons\n- Fira Code Font"
+        },
+        "defaultAudioLanguage": "en"
+      },
+      "contentDetails": {
+        "duration": "PT2M25S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      },
+      "statistics": {
+        "viewCount": "1097786",
+        "likeCount": "41680",
+        "favoriteCount": "0",
+        "commentCount": "470"
+      }
+    }
+  ],
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  }
+}

@@ -1,0 +1,47 @@
+{
+    "name": "@vitkuz/youtube-adapter",
+    "version": "1.1.0",
+    "description": "Functional YouTube adapter",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "pub": "npm publish --access public",
+        "build": "tsup",
+        "dev": "tsup --watch",
+        "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+        "prepublishOnly": "npm run format && npm run build"
+    },
+    "dependencies": {
+        "@vitkuz/firecrawl-adapter": "^1.1.0",
+        "dotenv": "^16.4.5",
+        "googleapis": "^144.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "prettier": "^3.7.4",
+        "rimraf": "^6.0.0",
+        "tsup": "^8.0.0",
+        "tsx": "^4.21.0",
+        "typescript": "^5.0.0"
+    },
+    "author": "Vitali Kuzmenka",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vitkuz/vitkuz-youtube-adapter.git"
+    },
+    "bugs": {
+        "url": "https://github.com/vitkuz/vitkuz-youtube-adapter/issues"
+    },
+    "homepage": "https://github.com/vitkuz/vitkuz-youtube-adapter#readme"
+}

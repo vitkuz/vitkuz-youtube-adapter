@@ -1,0 +1,182 @@
+{
+  "kind": "youtube#searchListResponse",
+  "etag": "r2nyDylCcXhGGGlulh7qEgM0sbM",
+  "nextPageToken": "CAUQAA",
+  "regionCode": "GE",
+  "pageInfo": {
+    "totalResults": 1000000,
+    "resultsPerPage": 5
+  },
+  "items": [
+    {
+      "kind": "youtube#searchResult",
+      "etag": "3F0Xvpxw1GDFyly6zZyIKStT5Qg",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "h489hYQCt0s"
+      },
+      "snippet": {
+        "publishedAt": "2025-04-09T12:39:35Z",
+        "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+        "title": "The Google Developer Program",
+        "description": "The Google Developer Program is here to empower you on your journey to learn, build, and grow with Google technologies.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/h489hYQCt0s/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/h489hYQCt0s/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/h489hYQCt0s/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "Google for Developers",
+        "liveBroadcastContent": "none",
+        "publishTime": "2025-04-09T12:39:35Z"
+      }
+    },
+    {
+      "kind": "youtube#searchResult",
+      "etag": "YTZTb4XGW5K_W5eZGbKC1UeupCI",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "dfvtz5Dli9E"
+      },
+      "snippet": {
+        "publishedAt": "2024-07-17T04:00:20Z",
+        "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+        "title": "When your coding goals meet reality….",
+        "description": "In the world of coding, sometimes it's one step forward, two bugs back. Subscribe to Google for Developers ...",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/dfvtz5Dli9E/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/dfvtz5Dli9E/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/dfvtz5Dli9E/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "Google for Developers",
+        "liveBroadcastContent": "none",
+        "publishTime": "2024-07-17T04:00:20Z"
+      }
+    },
+    {
+      "kind": "youtube#searchResult",
+      "etag": "YmV1bPM6Qzd77x55JclLu8P6XBY",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "SSZ5bHqisGs"
+      },
+      "snippet": {
+        "publishedAt": "2024-09-17T19:08:16Z",
+        "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+        "title": "Benefits of the Google Developer Program",
+        "description": "Welcome to the Google Developer Program! In this video, Chris Demeke shows you how this program can streamline your ...",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/SSZ5bHqisGs/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/SSZ5bHqisGs/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/SSZ5bHqisGs/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "Google for Developers",
+        "liveBroadcastContent": "none",
+        "publishTime": "2024-09-17T19:08:16Z"
+      }
+    },
+    {
+      "kind": "youtube#searchResult",
+      "etag": "dM7Opvi0e3-IjKVECvMWTvfmzNM",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "bC8fvcpocBU"
+      },
+      "snippet": {
+        "publishedAt": "2023-06-08T15:00:34Z",
+        "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+        "title": "Introducing Google for Developers!",
+        "description": "Welcome to Google for Developers - your one-stop destination for developer news, project inspiration, technical tutorials, and ...",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/bC8fvcpocBU/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/bC8fvcpocBU/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/bC8fvcpocBU/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "Google for Developers",
+        "liveBroadcastContent": "none",
+        "publishTime": "2023-06-08T15:00:34Z"
+      }
+    },
+    {
+      "kind": "youtube#searchResult",
+      "etag": "mqOsCAlAUDHHCV7NlVCu7dbz9To",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "bhR0c3n7uZA"
+      },
+      "snippet": {
+        "publishedAt": "2025-12-16T17:01:04Z",
+        "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+        "title": "5 engineering anti-patterns that limit your career",
+        "description": "Are invisible habits sabotaging your success? We expose common traps like Knowledge Silos, the Hero Complex, and ...",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/bhR0c3n7uZA/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/bhR0c3n7uZA/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/bhR0c3n7uZA/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "Google for Developers",
+        "liveBroadcastContent": "none",
+        "publishTime": "2025-12-16T17:01:04Z"
+      }
+    }
+  ]
+}
