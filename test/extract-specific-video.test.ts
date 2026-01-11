@@ -10,11 +10,6 @@ if (!process.env.YOUTUBE_API_KEY) {
 }
 
 const apiKey = process.env.YOUTUBE_API_KEY || 'test';
-const firecrawlApiKey = process.env.FIRECRAWL_API_KEY;
-
-if (!firecrawlApiKey) {
-    console.warn('FIRECRAWL_API_KEY is missing. Test might fail if it relies on firecrawl.');
-}
 
 const adapter = createAdapter({
     apiKey,
@@ -31,8 +26,8 @@ async function main() {
     await mkdir(responsesDir, { recursive: true });
 
     try {
-        const videoId = 'Mgg_tytybNk';
-        console.log(`Testing getTranscriptHtml() for Video ID: ${videoId}...`);
+        const videoId = 'IlOT71XGCMk';
+        console.log(`Extracting transcript for Video ID: ${videoId}...`);
 
         const result = await adapter.getTranscriptHtml({
             videoId,
@@ -48,13 +43,14 @@ async function main() {
             throw new Error('No transcript segments found!');
         }
 
-        const outputPath = join(responsesDir, 'transcript.html');
-        await writeFile(outputPath, result.html);
-        console.log(`Saved HTML to ${outputPath}`);
+        // Format segments as plain text
+        const plainText = result.segments
+            .map(s => `[${s.timestamp}] ${s.text}`)
+            .join('\n');
 
-        const jsonPath = join(responsesDir, 'transcript-segments.json');
-        await writeFile(jsonPath, JSON.stringify(result.segments, null, 2));
-        console.log(`Saved segments to ${jsonPath}`);
+        const outputPath = join(responsesDir, `transcript_${videoId}.txt`);
+        await writeFile(outputPath, plainText);
+        console.log(`Saved plain text transcript to ${outputPath}`);
 
         console.log('SUCCESS');
     } catch (error: any) {
