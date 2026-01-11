@@ -19,7 +19,8 @@ if (!firecrawlApiKey) {
 const adapter = createAdapter({
     apiKey,
     logger: {
-        debug: (msg: string, ctx?: any) => console.log(`[DEBUG] ${msg} ${ctx ? JSON.stringify(ctx).slice(0, 500) : ''}`),
+        debug: (msg: string, ctx?: any) =>
+            console.log(`[DEBUG] ${msg} ${ctx ? JSON.stringify(ctx).slice(0, 500) : ''}`),
         error: (msg: string, ctx?: any) => console.error(`[ERROR] ${msg}`, ctx || ''),
         info: (msg: string, ctx?: any) => console.log(`[INFO] ${msg}`, ctx || ''),
         warn: (msg: string, ctx?: any) => console.warn(`[WARN] ${msg}`, ctx || ''),

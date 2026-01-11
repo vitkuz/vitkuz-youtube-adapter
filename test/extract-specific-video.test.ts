@@ -14,7 +14,8 @@ const apiKey = process.env.YOUTUBE_API_KEY || 'test';
 const adapter = createAdapter({
     apiKey,
     logger: {
-        debug: (msg: string, ctx?: any) => console.log(`[DEBUG] ${msg} ${ctx ? JSON.stringify(ctx).slice(0, 500) : ''}`),
+        debug: (msg: string, ctx?: any) =>
+            console.log(`[DEBUG] ${msg} ${ctx ? JSON.stringify(ctx).slice(0, 500) : ''}`),
         error: (msg: string, ctx?: any) => console.error(`[ERROR] ${msg}`, ctx || ''),
         info: (msg: string, ctx?: any) => console.log(`[INFO] ${msg}`, ctx || ''),
         warn: (msg: string, ctx?: any) => console.warn(`[WARN] ${msg}`, ctx || ''),
@@ -44,9 +45,7 @@ async function main() {
         }
 
         // Format segments as plain text
-        const plainText = result.segments
-            .map(s => `[${s.timestamp}] ${s.text}`)
-            .join('\n');
+        const plainText = result.segments.map((s) => `[${s.timestamp}] ${s.text}`).join('\n');
 
         const outputPath = join(responsesDir, `transcript_${videoId}.txt`);
         await writeFile(outputPath, plainText);
