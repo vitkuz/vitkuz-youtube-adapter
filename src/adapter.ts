@@ -17,6 +17,11 @@ import {
     GetTranscriptHtmlInput,
     GetTranscriptHtmlOutput,
 } from './operations/get-transcript-html';
+import {
+    channelDetails,
+    ChannelDetailsInput,
+    ChannelDetailsOutput,
+} from './operations/channel-details';
 
 export interface AdapterConfig {
     apiKey: string;
@@ -28,6 +33,7 @@ export interface Adapter {
     client: YoutubeClient;
     search: (input: SearchInput) => Promise<SearchOutput>;
     videoDetails: (input: VideoDetailsInput) => Promise<VideoDetailsOutput>;
+    channelDetails: (input: ChannelDetailsInput) => Promise<ChannelDetailsOutput>;
     getAllChannelVideos: (input: GetAllChannelVideosInput) => Promise<GetAllChannelVideosOutput>;
     getTranscript: (input: GetTranscriptInput) => Promise<GetTranscriptOutput>;
     getTranscriptHtml: (input: GetTranscriptHtmlInput) => Promise<GetTranscriptHtmlOutput>;
@@ -57,6 +63,7 @@ export const createAdapter = (config: AdapterConfig): Adapter => {
         client,
         search: search(context),
         videoDetails: videoDetails(context),
+        channelDetails: channelDetails(context),
         getAllChannelVideos: getAllChannelVideos(context),
         getTranscript: getTranscript(context),
         getTranscriptHtml: getTranscriptHtml(context),
