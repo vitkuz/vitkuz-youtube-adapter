@@ -32,7 +32,7 @@ async function main() {
     await mkdir(responsesDir, { recursive: true });
 
     try {
-        const videoId = 'Mgg_tytybNk';
+        const videoId = 'xRALfsRKy84';
         console.log(`Testing getTranscriptHtml() for Video ID: ${videoId}...`);
 
         const result = await adapter.getTranscriptHtml({

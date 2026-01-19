@@ -16,13 +16,26 @@ export interface GetTranscriptHtmlOutput {
 // =============================================================================
 
 const INNERTUBE = {
-    // Public API key embedded in YouTube's JavaScript - may change over time
+    // Public API key embedded in YouTube's JavaScript
     DEFAULT_API_KEY: 'AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8',
     API_URL: 'https://www.youtube.com/youtubei/v1/player',
-    CLIENT_VERSION: '2.20250222.10.00',
+    CLIENTS: {
+        WEB: {
+            NAME: 'WEB',
+            VERSION: '2.20250222.10.00',
+        },
+        ANDROID: {
+            NAME: 'ANDROID',
+            VERSION: '19.30.36',
+        },
+        TV: {
+            NAME: 'TVHTML5',
+            VERSION: '7.20220918',
+        }
+    }
 };
 
-// Current API key (can be refreshed if default stops working)
+// Current API key
 let currentApiKey: string = INNERTUBE.DEFAULT_API_KEY;
 
 /**
@@ -33,7 +46,7 @@ const fetchFreshApiKey = async (logger?: any): Promise<string> => {
 
     const response = await fetch('https://www.youtube.com', {
         headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         },
     });
 
@@ -43,7 +56,6 @@ const fetchFreshApiKey = async (logger?: any): Promise<string> => {
 
     const html = await response.text();
 
-    // Try multiple patterns to find the API key
     const patterns = [
         /"INNERTUBE_API_KEY":"([^"]+)"/,
         /innertubeApiKey":"([^"]+)"/,
@@ -70,6 +82,13 @@ const generateVisitorData = (): string => {
     return Array.from({ length: 11 }, () =>
         chars.charAt(Math.floor(Math.random() * chars.length)),
     ).join('');
+};
+
+const getRandomUserAgent = (clientName: string): string => {
+    if (clientName === 'ANDROID') {
+        return 'com.google.android.youtube/19.30.36 (Linux; U; Android 14; en_US; Pixel 8 Pro; Build/UQ1A.240205.004) gzip';
+    }
+    return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
 };
 
 const decodeHtmlEntities = (text: string): string => {
@@ -102,7 +121,7 @@ interface CaptionTrack {
 }
 
 interface PlayerResponse {
-    playabilityStatus?: { status: string };
+    playabilityStatus?: { status: string; reason?: string };
     captions?: {
         playerCaptionsTracklistRenderer?: {
             captionTracks?: CaptionTrack[];
@@ -114,17 +133,23 @@ interface PlayerResponse {
 // Core Extraction Logic
 // =============================================================================
 
-const getPlayerResponse = async (videoId: string, apiKey: string): Promise<PlayerResponse> => {
+const getPlayerResponse = async (
+    videoId: string,
+    apiKey: string,
+    client: { NAME: string; VERSION: string }
+): Promise<PlayerResponse> => {
     const visitorData = generateVisitorData();
+    const userAgent = getRandomUserAgent(client.NAME);
 
     const response = await fetch(`${INNERTUBE.API_URL}?key=${apiKey}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'X-Youtube-Client-Version': INNERTUBE.CLIENT_VERSION,
-            'X-Youtube-Client-Name': '1',
+            'User-Agent': userAgent,
+            'X-Youtube-Client-Version': client.VERSION,
+            'X-Youtube-Client-Name': client.NAME === 'ANDROID' ? '3' : '1',
             'X-Goog-Visitor-Id': visitorData,
+            'X-Goog-Api-Format-Version': '2',
             Origin: 'https://www.youtube.com',
             Referer: 'https://www.youtube.com/',
         },
@@ -133,8 +158,8 @@ const getPlayerResponse = async (videoId: string, apiKey: string): Promise<Playe
                 client: {
                     hl: 'en',
                     gl: 'US',
-                    clientName: 'WEB',
-                    clientVersion: INNERTUBE.CLIENT_VERSION,
+                    clientName: client.NAME,
+                    clientVersion: client.VERSION,
                     visitorData,
                 },
             },
@@ -212,30 +237,32 @@ const formatTime = (seconds: number): string => {
 const tryExtractSubtitles = async (
     videoId: string,
     apiKey: string,
+    client: { NAME: string; VERSION: string },
     logger?: any,
 ): Promise<TranscriptItem[]> => {
-    const playerData = await getPlayerResponse(videoId, apiKey);
+    const playerData = await getPlayerResponse(videoId, apiKey, client);
 
     if (playerData.playabilityStatus?.status !== 'OK') {
-        throw new Error(`Video not playable: ${playerData.playabilityStatus?.status}`);
+        const reason = playerData.playabilityStatus?.reason || '';
+        throw new Error(`Video not playable (${client.NAME}): ${playerData.playabilityStatus?.status}${reason ? ` - ${reason}` : ''}`);
     }
 
     const tracks = playerData.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
 
     if (tracks.length === 0) {
-        throw new Error('No subtitles available for this video');
+        throw new Error(`No subtitles available for this video (${client.NAME})`);
     }
 
     // Default to first track (usually English or auto-generated English)
     // Could enhance to filter by lang if input.lang is provided
     const track = tracks[0];
-    logger?.debug(`Found caption track: ${track.name?.simpleText} (${track.languageCode})`);
+    logger?.debug(`Found caption track (${client.NAME}): ${track.name?.simpleText} (${track.languageCode})`);
 
     const xml = await fetchCaptionXml(track.baseUrl, videoId);
     const subtitles = parseXmlCaptions(xml);
 
     if (subtitles.length === 0) {
-        throw new Error('Failed to parse subtitles');
+        throw new Error(`Failed to parse subtitles (${client.NAME})`);
     }
 
     return subtitles.map((s) => ({
@@ -246,58 +273,70 @@ const tryExtractSubtitles = async (
 
 export const getTranscriptHtml =
     (context: Context) =>
-    async (input: GetTranscriptHtmlInput): Promise<GetTranscriptHtmlOutput> => {
-        const { logger } = context;
-        logger?.debug('getTranscriptHtml:start', { data: input });
+        async (input: GetTranscriptHtmlInput): Promise<GetTranscriptHtmlOutput> => {
+            const { logger } = context;
+            logger?.debug('getTranscriptHtml:start', { data: input });
 
-        const videoId = input.videoId;
-        const MAX_ATTEMPTS = 3;
-        let lastError: Error | null = null;
-        let segments: TranscriptItem[] = [];
+            const videoId = input.videoId;
 
-        for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-            try {
-                logger?.debug(
-                    `Attempt ${attempt}/${MAX_ATTEMPTS} (API key: ${currentApiKey.slice(0, 10)}...)`,
-                );
+            // Try these clients in order
+            const clientsToTry = [
+                INNERTUBE.CLIENTS.ANDROID,
+                INNERTUBE.CLIENTS.WEB,
+                INNERTUBE.CLIENTS.TV,
+            ];
 
-                segments = await tryExtractSubtitles(videoId, currentApiKey, logger);
-                break; // Success
-            } catch (error: any) {
-                lastError = error instanceof Error ? error : new Error(String(error));
-                logger?.warn(`Attempt ${attempt} failed: ${lastError.message}`);
+            let lastError: Error | null = null;
+            let segments: TranscriptItem[] = [];
 
-                // If not last attempt, try to get fresh API key
-                if (attempt < MAX_ATTEMPTS) {
+            for (const client of clientsToTry) {
+                const MAX_INNER_ATTEMPTS = 2; // Try each client twice (with fresh key)
+
+                for (let attempt = 1; attempt <= MAX_INNER_ATTEMPTS; attempt++) {
                     try {
-                        currentApiKey = await fetchFreshApiKey(logger);
-                        logger?.debug('Retrying with new API key...');
-                    } catch (keyError) {
-                        logger?.warn(`Failed to fetch new API key: ${keyError}`);
+                        logger?.debug(
+                            `Trying ${client.NAME} attempt ${attempt}/${MAX_INNER_ATTEMPTS} (API key: ${currentApiKey.slice(0, 10)}...)`,
+                        );
+
+                        segments = await tryExtractSubtitles(videoId, currentApiKey, client, logger);
+                        break; // Success with this client
+                    } catch (error: any) {
+                        lastError = error instanceof Error ? error : new Error(String(error));
+                        logger?.warn(`${client.NAME} attempt ${attempt} failed: ${lastError.message}`);
+
+                        // Try fresh API key for the second attempt
+                        if (attempt < MAX_INNER_ATTEMPTS) {
+                            try {
+                                currentApiKey = await fetchFreshApiKey(logger);
+                            } catch (keyError) {
+                                logger?.warn(`Failed to fetch new API key: ${keyError}`);
+                            }
+                        }
                     }
                 }
+
+                if (segments.length > 0) break; // Found segments, stop trying other clients
             }
-        }
 
-        if (segments.length === 0) {
-            throw new Error(
-                `Failed after ${MAX_ATTEMPTS} attempts. Last error: ${lastError?.message}`,
+            if (segments.length === 0) {
+                throw new Error(
+                    `Failed after trying all clients. Last error: ${lastError?.message}`,
+                );
+            }
+
+            // Generate a simple HTML representation for debugging/completeness
+            const htmlParts = segments.map(
+                (s) =>
+                    `<div class="segment"><span class="timestamp">${s.timestamp}</span><span class="text">${s.text}</span></div>`,
             );
-        }
+            const html = `<html><body><div class="transcript">${htmlParts.join('\n')}</div></body></html>`;
 
-        // Generate a simple HTML representation for debugging/completeness
-        const htmlParts = segments.map(
-            (s) =>
-                `<div class="segment"><span class="timestamp">${s.timestamp}</span><span class="text">${s.text}</span></div>`,
-        );
-        const html = `<html><body><div class="transcript">${htmlParts.join('\n')}</div></body></html>`;
+            logger?.debug('getTranscriptHtml:success', {
+                data: { count: segments.length },
+            });
 
-        logger?.debug('getTranscriptHtml:success', {
-            data: { count: segments.length },
-        });
-
-        return {
-            html,
-            segments,
+            return {
+                html,
+                segments,
+            };
         };
-    };
